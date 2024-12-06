@@ -1,0 +1,77 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Seccl Test API",
+    "description": "An API for testing prospective Seccl Employees",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Hello world",
+        "description": "Returns 'Hello World!'",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Hello World!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exchange/:curr1/:curr2": {
+      "get": {
+        "summary": "Get exchange rate for two currencies",
+        "description": "Returns exchange rate using first parameter as the base currency",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "The exchange rate between USD and GBP is 0.7847"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One or more supplied currency code is invalid",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Two valid currency symbols are required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Exchange rate is not available at this time"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  },
+  "tags": [],
+  "security": []
+}
