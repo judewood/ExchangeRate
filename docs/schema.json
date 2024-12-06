@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Seccl Test API",
-    "description": "An API for testing prospective Seccl Employees",
+    "title": "Jude Wood Test API",
+    "description": "An API for testing prospective Employees",
     "version": "1.0.0"
   },
   "paths": {
