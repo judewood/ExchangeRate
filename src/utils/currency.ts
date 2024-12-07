@@ -30,10 +30,12 @@ export const isValidCurrency = async (
     return (
       response!.body!.supported_codes.filter((p) => p[0] === input).length > 0
     );
-  } catch (error: any) {
-    logger.warn(
-      `failed to check if ${input} is valid currency code: ${error.message}`
-    );
+  } catch (err: unknown) {
+    let msg = `failed to check if ${input} is valid currency code`;
+    if (err instanceof Error) {
+      msg += ` Error: ${err.message}`;
+    }
+    logger.warn(msg);
     return false;
   }
 };
