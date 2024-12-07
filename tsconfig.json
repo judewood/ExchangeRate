@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-    "alwaysStrict": true,
     "baseUrl": ".",
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
@@ -8,10 +7,8 @@
     "module": "commonjs",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
@@ -23,13 +20,8 @@
     "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
-    "strictBindCallApply": true,
     "strictBuiltinIteratorReturn": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
     "target": "es2016",
-    "useUnknownInCatchVariables": true,
     "allowUnreachableCode": false
   },
 	"exclude": ["dist"]
