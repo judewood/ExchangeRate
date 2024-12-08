@@ -2,6 +2,7 @@ import { CurrencyCodes } from "../../models/currency";
 import * as apiFuncs from "../apiClient";
 
 import { API_KEY, EXCHANGE_URL } from "../../consts";
+import { ApiResponse } from "../../models/api";
 
 describe("notRetryable returns whether downstream indicates request is retryable", () => {
   it.each([408, 403, 500, 502, 503, 504, 522, 524])(
@@ -39,32 +40,21 @@ describe("getWithRetries", () => {
   });
 });
 
-// commented out while I work out how to mock either fetch or getApiResponse
-// describe.skip("getWithRetries", () => {
-//   let spy: any;
-//   beforeAll(() => {
-//     spy = jest.fn();
-//     spy = jest.spyOn(apiFuncs, "getApiResponse");
-//   });
-//   afterEach(() => spy.mockRestore());
-//   afterAll(() => {
-//     jest.restoreAllMocks();
-//   });
+// still working out the syntax - seems jest cannot resolve the generic type
+// because 'Type parameters don't exist in the runtime, so there's no way for Jest to check them'
+describe.skip("getWithRetries new", () => {
+  const resp: ApiResponse<unknown> = {
+    status: 200,
+    body: "anything",
+  };
 
-//   let result: CurrencyResult = {
-//     result: "success",
-//   };
-//   let resp: ApiResponse<CurrencyResult> = {
-//     status: 200,
-//     body: result,
-//   };
-
-//   spy.mockImplementation(() => {
-//     Promise.resolve(resp);
-//   });
-
-//   it("returns expected result", async () => {
-//     let result = await apiFuncs.getWithRetries<CurrencyCodes>("url");
-//     console.log(result);
-//   });
-// });
+  it("returns expected result", async () => {
+    const url = `${EXCHANGE_URL}/${API_KEY}/pair/USD/GBP`;
+    const spy = jest
+      .spyOn(apiFuncs, "getApiResponse")
+      .mockReturnValue(Promise.resolve(resp));
+    let result = await apiFuncs.getWithRetries<string>(url);
+    expect(spy).toHaveBeenCalledTimes(1);  //never gets called when test run
+    expect(result?.body).toEqual(resp.body);
+  });
+});
