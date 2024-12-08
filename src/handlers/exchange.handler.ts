@@ -1,5 +1,5 @@
 import { logger } from "@app/logger";
-import { getExchangeRate, isValidCurrency } from "@app/utils/currency";
+import { getExchangeRate, isValidCurrency } from "@app/currency/currency";
 import type { Request, Response } from "express";
 
 export const exchangeHandler = async (_req: Request, res: Response) => {

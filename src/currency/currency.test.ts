@@ -2,9 +2,9 @@ import {
   ExchangeApiReportedFail,
   getExchangeRate,
   isValidCurrency,
-} from "../utils/currency";
+} from "./currency";
 import { ApiResponse } from "../models/api";
-import { CurrencyResult } from "@app/currency/currency";
+import { CurrencyResult } from "@app/models/currency";
 
 describe("ExchangeApiReportedFail returns whether downstream indicates request is retryable", () => {
   let result: CurrencyResult = {

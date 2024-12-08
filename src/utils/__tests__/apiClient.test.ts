@@ -1,4 +1,4 @@
-import { CurrencyCodes } from "../../currency/currency";
+import { CurrencyCodes } from "../../models/currency";
 import * as apiFuncs from "../apiClient";
 
 import { API_KEY, EXCHANGE_URL } from "../../consts";
