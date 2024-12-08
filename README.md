@@ -3,7 +3,7 @@ The code checks that the supplied 2 currency codes are recognised by exchangerat
 Requests to exchangerate-api.com have configurable number of retries (default to 3 and capped at 10) 
 
 ## Variation from spec
-** Note the API key in this repo has now expired** You will need to use a non-expired key to run the code
+**Note the API key in this repo has now expired** You will need to use a non-expired key to run the code
 I got a 2 week api key (see consts) that I am using to both verify the user supplied currency codes against (we can only accept currency codes that are supported by exchangerate-api.com) 
 I am also using this api key to get the exchange rate since the endpoint with the api key  (https://v6.exchangerate-api.com/v6/YOUR-API-KEY/pair/EUR/GBP) better reflects the production solution so prevents rework later
 
