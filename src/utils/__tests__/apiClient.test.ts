@@ -1,8 +1,8 @@
-import { CurrencyCodes } from "../../models/currency";
 import * as apiFuncs from "../apiClient";
 
 import { API_KEY, EXCHANGE_URL } from "../../consts";
 import { ApiResponse } from "../../models/api";
+import fetchMock from "jest-fetch-mock";
 
 describe("notRetryable returns whether downstream indicates request is retryable", () => {
   it.each([408, 403, 500, 502, 503, 504, 522, 524])(
@@ -32,29 +32,40 @@ describe("getDelays", () => {
   });
 });
 
-describe("getWithRetries", () => {
-  it("returns expected result", async () => {
-    const url = `${EXCHANGE_URL}/${API_KEY}/pair/USD/GBP`;
-    let result = await apiFuncs.getWithRetries<CurrencyCodes>(url);
-    expect(result?.body?.result).toEqual("success");
+describe("performs expected number of retries", () => {
+  beforeEach(() => {
+    fetchMock.enableMocks();
   });
-});
 
-// still working out the syntax - seems jest cannot resolve the generic type
-// because 'Type parameters don't exist in the runtime, so there's no way for Jest to check them'
-describe.skip("getWithRetries new", () => {
-  const resp: ApiResponse<unknown> = {
-    status: 200,
-    body: "anything",
-  };
-
-  it("returns expected result", async () => {
-    const url = `${EXCHANGE_URL}/${API_KEY}/pair/USD/GBP`;
-    const spy = jest
-      .spyOn(apiFuncs, "getApiResponse")
-      .mockReturnValue(Promise.resolve(resp));
-    let result = await apiFuncs.getWithRetries<string>(url);
-    expect(spy).toHaveBeenCalledTimes(1);  //never gets called when test run
-    expect(result?.body).toEqual(resp.body);
+  afterEach(() => {
+    fetchMock.mockClear();
   });
+
+  it("performs no retries when downstream response is not retryable", async () => {
+    const expected: ApiResponse<string> = {
+      status: 400,
+      body: "anything",
+    };
+    fetchMock.mockResponse(
+      JSON.stringify({ status: expected.status, body: expected.body }),
+      { status: expected.status }
+    );
+    const url = `${EXCHANGE_URL}/${API_KEY}/pair/USD/GBP`;
+    await apiFuncs.getWithRetries<string>(url, 3);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+    it("performs retries when downstream returns retryable status", async () => {
+      const expected: ApiResponse<string> = {
+        status: 500,
+        body: "anything",
+      };
+      fetchMock.mockResponse(
+        JSON.stringify({ status: expected.status, body: expected.body }),
+        { status: expected.status }
+      );
+      const url = `${EXCHANGE_URL}/${API_KEY}/pair/USD/GBP`;
+      await apiFuncs.getWithRetries<string>(url, 5);
+      expect(fetchMock).toHaveBeenCalledTimes(6);
+    });
 });
