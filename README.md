@@ -3,19 +3,9 @@ The code checks that the supplied 2 currency codes are recognised by exchangerat
 Requests to exchangerate-api.com have configurable number of retries (default to 3 and capped at 10) 
 
 ## Variation from spec
+** Note the API key in this repo has now expired** You will need to use a non-expired key to run the code
 I got a 2 week api key (see consts) that I am using to both verify the user supplied currency codes against (we can only accept currency codes that are supported by exchangerate-api.com) 
 I am also using this api key to get the exchange rate since the endpoint with the api key  (https://v6.exchangerate-api.com/v6/YOUR-API-KEY/pair/EUR/GBP) better reflects the production solution so prevents rework later
-
-### Testing:
-I have added some unit tests but I am having problems getting jest spyOn to mock a generic function or to mock fetch. I have added one test but skipped it. The tests I want to add would be to
-
-To test getWithRetries<T> verify that when I mock getApiResponse<T> that 
-1. OK responses return expected and are not retried
-2. Non retryable responses return expected and are not retried
-3. Retryable responses return expected and are retried the set number of retries
-4. Number of  retries is capped at 10 
-
-Tests similar to above for isValidCurrency and getExchangeRate. I need to get mocking of generic functions fixed to do these too
 
 ### further work
 For production we would want the code to issue a separate warning if the api key failed so this can be alerted on
